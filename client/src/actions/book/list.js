@@ -18,12 +18,17 @@ export function success(retrieved) {
   return { type: 'BOOK_LIST_SUCCESS', retrieved };
 }
 
-export function list(page = 'books') {
+export function list(page = 1) {
   return dispatch => {
     dispatch(loading(true));
     dispatch(error(''));
 
-    fetch(page)
+    page = '?page=' + page;
+    let options = [];
+    options.entity = 'books';
+    options.page = page;
+
+    fetch(page, options)
       .then(response =>
         response
           .json()
