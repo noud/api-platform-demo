@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { list, reset } from '../../actions/review/list';
+import { paginationStringForFrontEnd } from '../../utils/pagination';
 
 class List extends Component {
   static propTypes = {
@@ -109,12 +110,16 @@ class List extends Component {
     const view = this.props.retrieved && this.props.retrieved['hydra:view'];
     if (!view) return;
 
-    const {
+    var {
       'hydra:first': first,
       'hydra:previous': previous,
       'hydra:next': next,
       'hydra:last': last
     } = view;
+
+    previous = previous ? paginationStringForFrontEnd(previous, 'reviews') : null;
+    next = next ? paginationStringForFrontEnd(next, 'reviews') : null;
+    last = paginationStringForFrontEnd(last, 'reviews');
 
     return (
       <nav aria-label="Page navigation">

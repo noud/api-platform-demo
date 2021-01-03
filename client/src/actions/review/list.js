@@ -4,6 +4,7 @@ import {
   extractHubURL,
   mercureSubscribe as subscribe
 } from '../../utils/dataAccess';
+import { storePaginationSettings } from '../../utils/pagination';
 import { success as deleteSuccess } from './delete';
 
 export function error(error) {
@@ -18,12 +19,14 @@ export function success(retrieved) {
   return { type: 'REVIEW_LIST_SUCCESS', retrieved };
 }
 
-export function list(page = 'reviews') {
+export function list(page = 1) {
   return dispatch => {
     dispatch(loading(true));
     dispatch(error(''));
 
-    fetch(page)
+    let pagination = storePaginationSettings(page, 'reviews');
+
+    fetch(pagination.page, pagination)
       .then(response =>
         response
           .json()
