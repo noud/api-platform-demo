@@ -4,6 +4,7 @@ import {
   normalize,
   mercureSubscribe as subscribe
 } from '../../utils/dataAccess';
+import { storeLinkSettings } from '../../utils/links';
 
 export function error(error) {
   return { type: 'BOOK_SHOW_ERROR', error };
@@ -25,7 +26,7 @@ export function retrieve(id) {
   return dispatch => {
     dispatch(loading(true));
 
-    return fetch(id)
+    return fetch(id, storeLinkSettings('books'))
       .then(response =>
         response
           .json()

@@ -5,6 +5,7 @@ import {
   normalize,
   mercureSubscribe as subscribe
 } from '../../utils/dataAccess';
+import { storeLinkSettings } from '../../utils/links';
 import { success as createSuccess } from './create';
 import { loading, error } from './delete';
 
@@ -24,7 +25,7 @@ export function retrieve(id) {
   return dispatch => {
     dispatch(retrieveLoading(true));
 
-    return fetch(id)
+    return fetch(id, storeLinkSettings('reviews'))
       .then(response =>
         response
           .json()

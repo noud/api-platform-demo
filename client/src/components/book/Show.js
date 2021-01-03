@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { retrieve, reset, generateCover } from '../../actions/book/show';
 import { del } from '../../actions/book/delete';
+import { linkStringForFrontEnd } from '../../utils/links';
 
 class Show extends Component {
   static propTypes = {
@@ -30,7 +31,7 @@ class Show extends Component {
   }
 
   generateCover = () => {
-    this.props.generateCover(decodeURIComponent(this.props.match.params.id));
+    this.props.generateCover('books/' + decodeURIComponent(this.props.match.params.id));
   };
 
   del = () => {
@@ -123,7 +124,7 @@ class Show extends Component {
           Back to list
         </Link>
         {item && (
-          <Link to={`/books/edit/${encodeURIComponent(item['@id'])}`}>
+          <Link to={`/books/edit/${linkStringForFrontEnd(encodeURIComponent(item['@id']), 'books')}`}>
             <button className="btn btn-warning">Edit</button>
           </Link>
         )}
@@ -141,8 +142,10 @@ class Show extends Component {
       ));
     }
 
+    let linkString = linkStringForFrontEnd(encodeURIComponent(items), type);
+
     return (
-      <Link to={`../../${type}/show/${encodeURIComponent(items)}`}>{items}</Link>
+      <Link to={`../../${type}/show/${linkString}`}>{items}</Link>
     );
   };
 }

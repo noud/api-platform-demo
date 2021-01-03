@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { list, reset } from '../../actions/book/list';
+import { linkStringForFrontEnd } from '../../utils/links';
 import { paginationStringForFrontEnd } from '../../utils/pagination';
 
 class List extends Component {
@@ -76,7 +77,7 @@ class List extends Component {
               this.props.retrieved['hydra:member'].map(item => (
                 <tr key={item['@id']}>
                   <th scope="row">
-                    <Link to={`show/${encodeURIComponent(item['@id'])}`}>
+                    <Link to={`show/${linkStringForFrontEnd(encodeURIComponent(item['@id']), 'books')}`}>
                       {item['@id']}
                     </Link>
                   </th>
@@ -87,13 +88,13 @@ class List extends Component {
                   <td>{item['publicationDate']}</td>
                   <td>{this.renderLinks('reviews', item['reviews'])}</td>
                   <td>
-                    <Link to={`show/${encodeURIComponent(item['@id'])}`}>
+                    <Link to={`show/${linkStringForFrontEnd(encodeURIComponent(item['@id']), 'books')}`}>
                       <span className="fa fa-search" aria-hidden="true" />
                       <span className="sr-only">Show</span>
                     </Link>
                   </td>
                   <td>
-                    <Link to={`edit/${encodeURIComponent(item['@id'])}`}>
+                    <Link to={`edit/${linkStringForFrontEnd(encodeURIComponent(item['@id']), 'books')}`}>
                       <span className="fa fa-pencil" aria-hidden="true" />
                       <span className="sr-only">Edit</span>
                     </Link>
@@ -162,8 +163,10 @@ class List extends Component {
       ));
     }
 
+    let linkString = linkStringForFrontEnd(encodeURIComponent(items), type);
+
     return (
-      <Link to={`../${type}/show/${encodeURIComponent(items)}`}>{items}</Link>
+      <Link to={`../${type}/show/${linkString}`}>{items}</Link>
     );
   };
 }

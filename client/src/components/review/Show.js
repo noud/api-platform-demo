@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { retrieve, reset } from '../../actions/review/show';
 import { del } from '../../actions/review/delete';
+import { linkStringForFrontEnd } from '../../utils/links';
 
 class Show extends Component {
   static propTypes = {
@@ -95,7 +96,7 @@ class Show extends Component {
           Back to list
         </Link>
         {item && (
-          <Link to={`/reviews/edit/${encodeURIComponent(item['@id'])}`}>
+          <Link to={`/reviews/edit/${linkStringForFrontEnd(encodeURIComponent(item['@id']), 'reviews')}`}>
             <button className="btn btn-warning">Edit</button>
           </Link>
         )}
@@ -113,8 +114,10 @@ class Show extends Component {
       ));
     }
 
+    let linkString = linkStringForFrontEnd(encodeURIComponent(items), type);
+
     return (
-      <Link to={`../../${type}/show/${encodeURIComponent(items)}`}>{items}</Link>
+      <Link to={`../../${type}/show/${linkString}`}>{items}</Link>
     );
   };
 }

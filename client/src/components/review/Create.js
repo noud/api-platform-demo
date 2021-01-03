@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Form from './Form';
 import { create, reset } from '../../actions/review/create';
+import { linkStringForFrontEnd } from '../../utils/links';
 
 class Create extends Component {
   static propTypes = {
@@ -22,7 +23,7 @@ class Create extends Component {
     if (this.props.created)
       return (
         <Redirect
-          to={`edit/${encodeURIComponent(this.props.created['@id'])}`}
+          to={`edit/${linkStringForFrontEnd(encodeURIComponent(this.props.created['@id']), 'reviews')}`}
         />
       );
 
