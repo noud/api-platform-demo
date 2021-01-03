@@ -3,6 +3,7 @@ import { SubmissionError } from 'redux-form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import mapValues from 'lodash/mapValues';
+import { paginationStringForBackEnd } from '../utils/pagination';
 
 const MIME_TYPE = 'application/ld+json';
 
@@ -18,16 +19,7 @@ export function fetch(id, options = {}) {
   )
     options.headers.set('Content-Type', MIME_TYPE);
 
-    let entryPoint = ENTRYPOINT;
-    if (options.entity) {
-      entryPoint += '/' + options.entity;
-      if (!options.page) {
-        entryPoint += '/';
-      }
-    }
-    console.log(entryPoint);
-
-    return global.fetch(new URL(id, entryPoint), options).then(response => {
+    return global.fetch(new URL(id, paginationStringForBackEnd(options)), options).then(response => {
     if (response.ok) return response;
 
     return response.json().then(json => {
