@@ -1,4 +1,5 @@
 import { fetch } from '../../utils/dataAccess';
+import { storeLinkSettings } from '../../utils/links';
 
 export function error(error) {
   return { type: 'REVIEW_DELETE_ERROR', error };
@@ -16,7 +17,9 @@ export function del(item) {
   return dispatch => {
     dispatch(loading(true));
 
-    return fetch(item['@id'], { method: 'DELETE' })
+    return fetch(item['@id'], storeLinkSettings('reviews', {
+      method: 'DELETE'
+    }))
       .then(() => {
         dispatch(loading(false));
         dispatch(success(item));
